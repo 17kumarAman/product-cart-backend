@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes/useRoute");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 
@@ -14,10 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect(process.env.URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+  .connect("mongodb://127.0.0.1:27017/merndb")
   .then(() => {
     console.log("Connected Successfully to MongoDB");
     app.listen(4000, () => {
