@@ -17,6 +17,9 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
     res.status(200).json(product);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -27,7 +30,8 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { title, price, description, category, image } = req.body;
   try {
-    const product = await Product.create({ title, price, description, category, image });
+    const product = new Product({ title, price, description, category, image });
+    await product.save();
     res.status(201).json(product);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -38,7 +42,12 @@ router.post("/", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const product = await Product.findByIdAndUpdate(id, req.body, { new: true });
+    const product = await Product.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
     res.status(200).json(product);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -50,7 +59,10 @@ router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const product = await Product.findByIdAndDelete(id);
-    res.status(200).json(product);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    res.status(200).json({ message: "Product deleted successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

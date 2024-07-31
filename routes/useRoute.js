@@ -6,7 +6,8 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
   const { name, email, age, password } = req.body;
   try {
-    const user = await User.create({ name, email, age, password });
+    const user = new User({ name, email, age, password });
+    await user.save();
     res.status(201).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -42,6 +43,9 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -53,6 +57,9 @@ router.patch("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.findByIdAndUpdate(id, req.body, { new: true });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -64,7 +71,10 @@ router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const user = await User.findByIdAndDelete(id);
-    res.status(200).json(user);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
