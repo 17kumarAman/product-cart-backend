@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/merndb")
+  .connect("mongodb+srv://ak3722032:3VkvKpt2zEfHmC3F@aman.u8hfihn.mongodb.net/?retryWrites=true&w=majority&appName=Aman/mern")
   .then(() => {
     console.log("Connected Successfully to MongoDB");
     app.listen(4000, () => {

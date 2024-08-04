@@ -6,7 +6,7 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   age: { type: Number, required: true },
   password: { type: String, required: true },
-  cart: [cartItemSchema]
+  cart: []
 });
 
 const User = mongoose.model('User', userSchema);
