@@ -25,8 +25,8 @@ mongoose
     console.error("Error connecting to MongoDB:", err);
   });
 
-app.use("/api/users", userRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/cart", cartRoutes);
+app.use("/users", userRoutes);
+app.use("/products", productRoutes);
+app.use("/cart", cartRoutes);
 
 module.exports = app;
